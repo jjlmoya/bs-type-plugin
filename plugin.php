@@ -17,9 +17,9 @@ if (!defined('ABSPATH')) {
 
 /** MODEL CONFIGURATION **/
 require_once plugin_dir_path(__FILE__) . '/PluginModel.php';
-function bs_course_get_post_type()
+function bs_plugin_get_post_type()
 {
-	return Courses::getInstance('Plugin', 'Plugins', "plugins",
+	return PluginModel::getInstance('Plugin', 'Plugins', "plugins",
 		array(
 			"repo" => array(
 				"name" => "Repo",
@@ -33,9 +33,9 @@ function bs_course_get_post_type()
 /** END MODEL CONFIGURATION */
 
 /** REGISTER CORE FUNCTIONS **/
-function bs_course_register_post_type()
+function bs_plugin_register_post_type()
 {
-	$model = bs_course_get_post_type();
+	$model = bs_plugin_get_post_type();
 	$labels = array(
 		"name" => __($model->plural, "custom-post-type-ui"),
 		"singular_name" => __($model->singular, "custom-post-type-ui"),
@@ -73,17 +73,17 @@ function bs_course_register_post_type()
 	register_post_type($model->db, $args);
 }
 
-function bs_course_create_custom_params()
+function bs_plugin_create_custom_params()
 {
-	$model = bs_course_get_post_type();
+	$model = bs_plugin_get_post_type();
 	foreach ($model->customFields as $customField) {
 		add_action('add_meta_boxes', $model->nameSpace . '_' . $customField["value"] . '_register');
 	}
 }
 
-function bs_course_register($customType)
+function bs_plugin_register($customType)
 {
-	$model = bs_course_get_post_type();
+	$model = bs_plugin_get_post_type();
 	$customField = $model->customFields;
 	$customField = $customField[$customType];
 	add_meta_box(
@@ -97,9 +97,9 @@ function bs_course_register($customType)
 
 }
 
-function bs_course_callback($fieldType)
+function bs_plugin_callback($fieldType)
 {
-	$model = bs_course_get_post_type();
+	$model = bs_plugin_get_post_type();
 	$customField = $model->customFields;
 	$customField = $customField[$fieldType];
 	$dbEntry = $model->db . '_' . $customField['value'];
@@ -109,10 +109,10 @@ function bs_course_callback($fieldType)
 	echo '<input type="' . $customField['input'] . '" name="' . $dbEntry . '" value="' . esc_textarea($value) . '" class="widefat">';
 }
 
-function bs_course_on_save($post_id)
+function bs_plugin_on_save($post_id)
 {
 
-	$model = bs_course_get_post_type();
+	$model = bs_plugin_get_post_type();
 
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 		return;
@@ -149,9 +149,9 @@ function bs_plugin_repo_register()
 	bs_plugin_register('repo');
 }
 
-function bs_course_repo_callback()
+function bs_plugin_repo_callback()
 {
-	bs_course_callback('repo');
+	bs_plugin_callback('repo');
 }
 /** END GENERIC ADD */
 
