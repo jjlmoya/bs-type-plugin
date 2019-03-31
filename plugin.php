@@ -14,7 +14,6 @@
 if (!defined('ABSPATH')) {
 	exit;
 }
-
 /** MODEL CONFIGURATION **/
 require_once plugin_dir_path(__FILE__) . '/PluginModel.php';
 function bs_plugin_get_post_type()
