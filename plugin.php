@@ -137,7 +137,6 @@ function bs_plugin_on_save($post_id)
 
 add_action('init', 'bs_plugin_register_post_type');
 add_action('save_post', 'bs_plugin_on_save');
-bs_plugin_create_custom_params();
 
 /** END CORE FUNCTIONS **/
 
